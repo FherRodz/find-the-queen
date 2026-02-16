@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bt4gnoos72yen"]
+
+[ext_resource type="Texture2D" uid="uid://vlv42acruo6g" path="res://assets/beehive-board.png" id="1_xrvgy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xrvgy"]
+size = Vector2(286, 226)
+
+[node name="GameBoard" type="Node2D" unique_id=433372966]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=545638701]
+
+[node name="Background" type="Sprite2D" parent="Area2D" unique_id=496158084]
+texture = ExtResource("1_xrvgy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2103696201]
+shape = SubResource("RectangleShape2D_xrvgy")

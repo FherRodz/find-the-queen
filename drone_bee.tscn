@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://cisx3ng7tagtr"]
+
+[ext_resource type="Texture2D" uid="uid://ct7qriikv7k6w" path="res://assets/drone-bee-static.png" id="1_b47kw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xsaan"]
+atlas = ExtResource("1_b47kw")
+region = Rect2(0, 0, 19, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j1yr0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xsaan")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bwh84"]
+radius = 7.0
+height = 22.0
+
+[node name="DroneBee" type="CharacterBody2D" unique_id=853950873]
+collision_layer = 3
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=111841817]
+sprite_frames = SubResource("SpriteFrames_j1yr0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2026447869]
+shape = SubResource("CapsuleShape2D_bwh84")

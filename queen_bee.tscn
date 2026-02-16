@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cc01wxjbfoirm"]
+
+[ext_resource type="Texture2D" uid="uid://dhxds44unv147" path="res://assets/bees-static.png" id="1_pyscg"]
+[ext_resource type="Script" uid="uid://d6th07w7ryg4" path="res://queen_bee.gd" id="2_18q05"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pyscg"]
+atlas = ExtResource("1_pyscg")
+region = Rect2(0, 0, 31, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_18q05"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pyscg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pedfs"]
+radius = 11.0
+height = 40.0
+
+[node name="QueenBee" type="CharacterBody2D" unique_id=2143274575]
+input_pickable = true
+script = ExtResource("2_18q05")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1771331264]
+sprite_frames = SubResource("SpriteFrames_18q05")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1454416332]
+shape = SubResource("CapsuleShape2D_pedfs")
+
+[connection signal="input_event" from="." to="." method="_on_queen_input_event"]

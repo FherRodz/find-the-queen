@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cw6qrb4el1sg8"]
+
+[ext_resource type="Script" uid="uid://bo46dcoolvup4" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://bt4gnoos72yen" path="res://game_board.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://cc01wxjbfoirm" path="res://queen_bee.tscn" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://27ckvydgy30h" path="res://game_state_manager.gd" id="3_h2yge"]
+
+[node name="Main" type="Node" unique_id=1434602781]
+script = ExtResource("1_0xm2m")
+queen_bee_scene = ExtResource("2_1bvp3")
+
+[node name="GameBoard" parent="." unique_id=433372966 instance=ExtResource("1_ig7tw")]
+position = Vector2(572, 325)
+scale = Vector2(2.5, 2.5)
+
+[node name="ScoreTimer" type="Timer" parent="." unique_id=1410109033]
+
+[node name="StartGameTimer" type="Timer" parent="." unique_id=1799414595]
+wait_time = 2.0
+one_shot = true
+
+[node name="GameStateManager" type="Node" parent="." unique_id=480692441]
+script = ExtResource("3_h2yge")
+
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartGameTimer" to="." method="_on_start_game_timer_timeout"]
