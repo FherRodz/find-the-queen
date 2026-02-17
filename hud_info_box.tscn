@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://k3so20554l7"]
+
+[ext_resource type="Script" uid="uid://dunel1jyfg6so" path="res://hud_info_box.gd" id="1_ukr3k"]
+[ext_resource type="FontFile" uid="uid://o6x5jg8xrdc0" path="res://assets/fonts/LowGothic_8x10_Regular.ttf" id="2_2p67x"]
+
+[node name="HUDInfoBox" type="Control" unique_id=897649058]
+custom_minimum_size = Vector2(73, 58)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 73.0
+offset_bottom = 58.0
+script = ExtResource("1_ukr3k")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1512303763]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="." unique_id=1524619228]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 21.0
+offset_right = 50.0
+offset_bottom = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_2p67x")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1

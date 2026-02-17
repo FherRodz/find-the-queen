@@ -2,25 +2,29 @@ extends Node
 @export var queen_bee_scene: PackedScene
 @export var drone_bee_scene: PackedScene
 @onready var game_state_manager = $GameStateManager
+@onready var game_stats_hud = $GameStatsHUD
 
 var State
 
+# Constants
 const DRONE_INNER_RADIUS: float = 50
 const DRONE_OUTER_RADIUS: float = 150
 const RING_SPAWN_WEIGHT = 0.6
 const MAX_RING_ATTEMPTS = 6
 const MIN_DISTANCE_FROM_QUEEN = DRONE_INNER_RADIUS
 const MAX_BOARD_ATTEMPTS = 8
+const BASE_SCORE = 60
 
-const base_score = 60
+# Stats
 var run_score = 0
-var level_score = base_score
+var level_score = BASE_SCORE
 var level = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	game_state_manager.state_changed.connect(_on_game_state_changed)
 	State = game_state_manager.State
+	game_state_manager.change_state(State.TITLE)
 
 func _on_game_state_changed(new_state):
 	match new_state:
@@ -43,20 +47,22 @@ func _process(delta: float) -> void:
 		game_state_manager.change_state(State.LEVEL_START)
 		
 func _enter_title_state() -> void:
-	pass
+	game_stats_hud.hide()
+	game_stats_hud.update_level(1)
+	game_stats_hud.update_score(0)
+	game_stats_hud.update_time(BASE_SCORE)
 	
 func _enter_get_ready_state() -> void:
 	level+=1
-	level_score = base_score
+	game_stats_hud.update_level(level)
+	level_score = BASE_SCORE
 	print("Get Ready!")
 	
 
 func _enter_level_start_state() -> void:
 	print("called level start")
-	print("Level: ", level)
-	print("level score: ", level_score)
-	print("run score: ", run_score)
 	$StartGameTimer.start()
+	game_stats_hud.show()
 
 func _enter_game_over_state() -> void:
 	pass
@@ -66,6 +72,7 @@ func _enter_level_clear_state() -> void:
 	for drone in get_tree().get_nodes_in_group("drones"):
 		drone.queue_free()
 	run_score += level_score
+	game_stats_hud.update_score(run_score)
 	game_state_manager.change_state(State.GET_READY)
 	
 func _on_queen_caught():
@@ -170,6 +177,7 @@ func _on_start_game_timer_timeout():
 	
 func _on_score_timer_timeout():
 	level_score-=1
+	game_stats_hud.update_time(level_score)
 	
 # helper function to find a random spawn point for drone bees that is centered around the position of the queen bee
 func _random_point_around_queen(queen_position:Vector2, inner_radius:float, outer_radius:float) -> Vector2:
