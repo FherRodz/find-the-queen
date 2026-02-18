@@ -46,6 +46,10 @@ func _process(delta: float) -> void:
 		print("pressed enter")
 		game_state_manager.change_state(State.LEVEL_START)
 		
+	if game_state_manager.current_state == State.LEVEL_START:
+		if level_score == 0:
+			game_state_manager.change_state(State.GAME_OVER)
+		
 func _enter_title_state() -> void:
 	game_stats_hud.hide()
 	game_stats_hud.update_level(1)
@@ -65,7 +69,10 @@ func _enter_level_start_state() -> void:
 	game_stats_hud.show()
 
 func _enter_game_over_state() -> void:
-	pass
+	print("Game Over!")
+	print("Your Score was: ", run_score)
+	$ScoreTimer.stop()
+	
 
 func _enter_level_clear_state() -> void:
 	print("CLEARED THE LEVEL!")
