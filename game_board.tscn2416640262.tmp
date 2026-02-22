@@ -9,12 +9,13 @@ size = Vector2(286, 226)
 
 [sub_resource type="Curve2D" id="Curve2D_17g6i"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -146, -131, 0, 0, 0, 0, 146, -131)
+"points": PackedVector2Array(0, 0, 0, 0, -153, -126, 0, 0, 0, 0, 154, -126)
 }
 point_count = 2
 
 [node name="GameBoard" type="Node2D" unique_id=433372966]
 script = ExtResource("1_i37i2")
+tiny_keeper_scene = ExtResource("2_17g6i")
 
 [node name="PlayArea" type="Area2D" parent="." unique_id=545638701]
 
@@ -28,7 +29,7 @@ shape = SubResource("RectangleShape2D_xrvgy")
 curve = SubResource("Curve2D_17g6i")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D" unique_id=523153080]
-position = Vector2(146, -131)
+position = Vector2(154, -126)
 progress = 614.00006
 loop = false
 

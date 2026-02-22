@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://27ckvydgy30h" path="res://game_state_manager.gd" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cisx3ng7tagtr" path="res://drone_bee.tscn" id="3_lquwl"]
 [ext_resource type="PackedScene" uid="uid://dsoswcnynriun" path="res://game_stats_hud.tscn" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://dgq5tkykk0e3q" path="res://game_title.tscn" id="7_272bh"]
 
 [node name="Main" type="Node" unique_id=1434602781]
 script = ExtResource("1_0xm2m")
@@ -13,8 +14,7 @@ queen_bee_scene = ExtResource("2_1bvp3")
 drone_bee_scene = ExtResource("3_lquwl")
 
 [node name="GameBoard" parent="." unique_id=433372966 instance=ExtResource("1_ig7tw")]
-position = Vector2(625.00006, 325)
-scale = Vector2(2.5, 2.5)
+position = Vector2(320, 232)
 
 [node name="ScoreTimer" type="Timer" parent="." unique_id=1410109033]
 wait_time = 0.5
@@ -27,11 +27,20 @@ one_shot = true
 script = ExtResource("3_h2yge")
 
 [node name="GameStatsHUD" parent="." unique_id=1495035985 instance=ExtResource("6_7mycd")]
-offset_left = 35.999996
-offset_top = 9.999999
-offset_right = 109.0
-offset_bottom = 192.0
-scale = Vector2(2.5, 2.5)
+offset_left = 88.0
+offset_top = 112.0
+offset_right = 161.0
+offset_bottom = 294.0
+
+[node name="GameTitle" parent="." unique_id=1682264331 instance=ExtResource("7_272bh")]
+anchors_preset = 5
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_left = -64.0
+offset_top = 48.0
+offset_right = 56.0
+offset_bottom = 76.0
+grow_vertical = 1
 
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartGameTimer" to="." method="_on_start_game_timer_timeout"]

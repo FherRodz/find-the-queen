@@ -55,6 +55,7 @@ func _enter_title_state() -> void:
 	game_stats_hud.update_level(1)
 	game_stats_hud.update_score(0)
 	game_stats_hud.update_time(BASE_SCORE)
+	$GameTitle.start_scale_tween()
 	
 func _enter_get_ready_state() -> void:
 	level+=1
@@ -65,6 +66,7 @@ func _enter_get_ready_state() -> void:
 
 func _enter_level_start_state() -> void:
 	print("called level start")
+	$GameTitle.stop_scale_tween()
 	$StartGameTimer.start()
 	game_stats_hud.show()
 
@@ -151,7 +153,7 @@ func _on_start_game_timer_timeout():
 	add_child(queen)
 	queen.is_caught.connect(_on_queen_caught)
 	
-	var area = $GameBoard/Area2D
+	var area = $GameBoard/PlayArea
 	var shape = area.get_node("CollisionShape2D").shape
 
 	var board_rect: Rect2 = shape.get_rect()
