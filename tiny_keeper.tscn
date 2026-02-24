@@ -111,10 +111,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u31v2"]
 size = Vector2(6, 9)
 
-[node name="TinyKeeper" type="RigidBody2D" unique_id=143290448]
-gravity_scale = 0.0
-contact_monitor = true
-max_contacts_reported = 5
+[node name="TinyKeeper" type="Area2D" unique_id=459243826]
 script = ExtResource("1_quno5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=456954198]
@@ -126,4 +123,4 @@ animation = &"idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=465296579]
 shape = SubResource("RectangleShape2D_u31v2")
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

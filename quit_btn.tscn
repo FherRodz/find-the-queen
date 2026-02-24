@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://csie6kvxug511"]
+
+[ext_resource type="Theme" uid="uid://bhq3m76tvf8x" path="res://QuitButton.tres" id="1_ty826"]
+[ext_resource type="Script" uid="uid://cjyb0nw2beaad" path="res://quit_btn.gd" id="2_f02yj"]
+
+[node name="QuitBtn" type="Button" unique_id=1409291650]
+custom_minimum_size = Vector2(28, 18)
+offset_right = 28.0
+offset_bottom = 18.0
+pivot_offset = Vector2(14, 9)
+theme = ExtResource("1_ty826")
+script = ExtResource("2_f02yj")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]

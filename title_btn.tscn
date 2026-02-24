@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dihag4jd3d4br"]
+
+[ext_resource type="Theme" uid="uid://bnsg23s5w5dup" path="res://TitleButton.tres" id="1_203vn"]
+[ext_resource type="Script" uid="uid://ea7olr2yme1a" path="res://title_btn.gd" id="2_vhyvg"]
+
+[node name="TitleBtn" type="Button" unique_id=49861657]
+custom_minimum_size = Vector2(29, 18)
+offset_right = 8.0
+offset_bottom = 8.0
+theme = ExtResource("1_203vn")
+script = ExtResource("2_vhyvg")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

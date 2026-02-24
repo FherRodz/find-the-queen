@@ -3,11 +3,12 @@ extends Node
 @export var drone_bee_scene: PackedScene
 @onready var game_state_manager = $GameStateManager
 @onready var game_stats_hud = $GameStatsHUD
+@onready var game_title_ui = $TitleUI
 
 var State
 
 # Constants
-const DRONE_INNER_RADIUS: float = 50
+const DRONE_INNER_RADIUS: float = 20
 const DRONE_OUTER_RADIUS: float = 150
 const RING_SPAWN_WEIGHT = 0.6
 const MAX_RING_ATTEMPTS = 6
@@ -56,6 +57,7 @@ func _enter_title_state() -> void:
 	game_stats_hud.update_score(0)
 	game_stats_hud.update_time(BASE_SCORE)
 	$GameTitle.start_scale_tween()
+	game_title_ui.show()
 	
 func _enter_get_ready_state() -> void:
 	level+=1
@@ -69,6 +71,7 @@ func _enter_level_start_state() -> void:
 	$GameTitle.stop_scale_tween()
 	$StartGameTimer.start()
 	game_stats_hud.show()
+	game_title_ui.hide()
 
 func _enter_game_over_state() -> void:
 	print("Game Over!")
@@ -209,3 +212,12 @@ func _point_fits_in_board(
 		point.x >= min_x and point.x <= max_x and
 		point.y >= min_y and point.y <= max_y
 	)
+
+
+func _on_new_game_btn_new_game_pressed() -> void:
+	await get_tree().create_timer(.5).timeout
+	game_state_manager.change_state(State.LEVEL_START)
+
+
+func _on_quit_btn_quit_btn_pressed() -> void:
+	get_tree().quit()

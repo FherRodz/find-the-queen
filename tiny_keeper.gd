@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends Area2D
 
 
 const SPEED = 300.0
@@ -27,7 +27,6 @@ func update_animation(direction: int, idle: bool) -> void:
 	else:
 		$AnimatedSprite2D.flip_h = false
 
-
-func _on_body_entered(body: Node) -> void:
-	print("collided with body: ", body)
+func _on_area_entered(area: Area2D) -> void:
+	#print("collided with body: ", area)
 	interact.emit()

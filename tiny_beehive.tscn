@@ -133,11 +133,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ta5ic"]
 size = Vector2(4, 5)
 
-[node name="TinyBeehive" type="RigidBody2D" unique_id=78647386]
-collision_mask = 0
-gravity_scale = 0.0
-contact_monitor = true
-max_contacts_reported = 5
+[node name="TinyBeehive" type="Area2D" unique_id=657465035]
 script = ExtResource("1_4wq4s")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=285131043]
@@ -149,3 +145,6 @@ offset = Vector2(2, -2)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2137308436]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_ta5ic")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
