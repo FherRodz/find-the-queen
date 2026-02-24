@@ -3,8 +3,10 @@ extends RigidBody2D
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
-var direction = 1
 
+signal interact
+
+var last_direction
 
 func _ready() -> void:
 	show()
@@ -24,3 +26,8 @@ func update_animation(direction: int, idle: bool) -> void:
 		$AnimatedSprite2D.flip_h = true
 	else:
 		$AnimatedSprite2D.flip_h = false
+
+
+func _on_body_entered(body: Node) -> void:
+	print("collided with body: ", body)
+	interact.emit()

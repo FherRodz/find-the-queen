@@ -11,13 +11,12 @@ var idle: bool = false
 func _ready() -> void:
 	_spawn_tiny_keeper()
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	print("ratio: ", keeper_path.progress_ratio)
+	#print("ratio: ", keeper_path.progress_ratio)
 	if not idle:
 		_walk_keeper(delta)
-	if keeper_path.progress_ratio == 1.0 or keeper_path.progress_ratio == 0.1:
+	if keeper_path.progress_ratio == 1.0 or keeper_path.progress_ratio == 0.0:
 		_idle_keeper()
 		await get_tree().create_timer(3).timeout
 		idle = false
@@ -41,9 +40,14 @@ func _idle_keeper() -> void:
 	keeper.update_animation(direction, idle)
 
 func _spawn_tiny_keeper() -> void:
-	keeper_path.add_child(keeper)
 	keeper_path.progress_ratio = randf()
 	
 	keeper_last_position = keeper_path.global_position
 	keeper.global_position = keeper_path.global_position
 	keeper.rotation = 0.0
+
+
+func _on_tiny_keeper_interact() -> void:
+	_idle_keeper()
+	await get_tree().create_timer(3).timeout
+	idle = false
