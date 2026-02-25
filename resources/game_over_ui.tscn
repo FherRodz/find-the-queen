@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://1mvfmjsiieqi"]
+
+[ext_resource type="Script" uid="uid://blfqlarwndgvu" path="res://resources/game_over_ui.gd" id="1_14p6a"]
+[ext_resource type="Texture2D" uid="uid://dwqrpdg3ounys" path="res://assets/game-over-board.png" id="1_vf2a1"]
+[ext_resource type="Texture2D" uid="uid://c5tlfn62wwvwd" path="res://assets/level-label.png" id="2_i8c7n"]
+[ext_resource type="PackedScene" uid="uid://k3so20554l7" path="res://hud_info_box.tscn" id="2_l2hx4"]
+[ext_resource type="PackedScene" uid="uid://bsf21o275q3nu" path="res://new_game_btn.tscn" id="3_snb5r"]
+[ext_resource type="Texture2D" uid="uid://ch8pkmeb1fm2u" path="res://assets/empty-label.png" id="4_14p6a"]
+[ext_resource type="PackedScene" uid="uid://dihag4jd3d4br" path="res://title_btn.tscn" id="4_i8c7n"]
+[ext_resource type="Texture2D" uid="uid://bx1hbi88yn0ke" path="res://assets/score-label.png" id="5_t1i4r"]
+
+[node name="GameOverUi" type="Control" unique_id=968637893]
+custom_minimum_size = Vector2(129, 107)
+layout_mode = 3
+anchor_left = 0.101
+anchor_top = 0.149
+anchor_right = 0.101
+anchor_bottom = 0.149
+offset_left = -64.64
+offset_top = -53.640003
+offset_right = 64.36
+offset_bottom = 53.359997
+script = ExtResource("1_14p6a")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1423795082]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_vf2a1")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=23354502]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.5
+offset_top = -71.0
+offset_right = 62.5
+offset_bottom = 71.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer" unique_id=975719249]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 2
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/MarginContainer" unique_id=129055118]
+layout_mode = 2
+columns = 2
+
+[node name="LevelLabel" type="TextureRect" parent="CenterContainer/MarginContainer/GridContainer" unique_id=1041946064]
+layout_mode = 2
+texture = ExtResource("2_i8c7n")
+stretch_mode = 2
+
+[node name="LevelInfoBox" parent="CenterContainer/MarginContainer/GridContainer" unique_id=897649058 instance=ExtResource("2_l2hx4")]
+custom_minimum_size = Vector2(29, 24)
+layout_mode = 2
+box_texture = ExtResource("4_14p6a")
+
+[node name="ScoreLabel" type="TextureRect" parent="CenterContainer/MarginContainer/GridContainer" unique_id=1711638129]
+layout_mode = 2
+texture = ExtResource("5_t1i4r")
+stretch_mode = 2
+
+[node name="ScoreInfoBox" parent="CenterContainer/MarginContainer/GridContainer" unique_id=1401698416 instance=ExtResource("2_l2hx4")]
+custom_minimum_size = Vector2(29, 24)
+layout_mode = 2
+box_texture = ExtResource("4_14p6a")
+
+[node name="NewGameBtn" parent="CenterContainer/MarginContainer/GridContainer" unique_id=130003780 instance=ExtResource("3_snb5r")]
+layout_mode = 2
+
+[node name="TitleBtn" parent="CenterContainer/MarginContainer/GridContainer" unique_id=49861657 instance=ExtResource("4_i8c7n")]
+layout_mode = 2

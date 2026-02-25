@@ -4,6 +4,8 @@ extends Node
 @onready var game_state_manager = $GameStateManager
 @onready var game_stats_hud = $GameStatsHUD
 @onready var game_title_ui = $TitleUI
+@onready var game_clear_lvl_ui = $LevelClearUi
+@onready var game_over_ui = $GameOverUi
 
 var State
 
@@ -14,7 +16,7 @@ const RING_SPAWN_WEIGHT = 0.6
 const MAX_RING_ATTEMPTS = 6
 const MIN_DISTANCE_FROM_QUEEN = DRONE_INNER_RADIUS
 const MAX_BOARD_ATTEMPTS = 8
-const BASE_SCORE = 60
+const BASE_SCORE = 30
 
 # Stats
 var run_score = 0
@@ -52,6 +54,8 @@ func _process(delta: float) -> void:
 			game_state_manager.change_state(State.GAME_OVER)
 		
 func _enter_title_state() -> void:
+	game_over_ui.hide()
+	game_clear_lvl_ui.hide()
 	game_stats_hud.hide()
 	game_stats_hud.update_level(1)
 	game_stats_hud.update_score(0)
@@ -61,9 +65,10 @@ func _enter_title_state() -> void:
 	
 func _enter_get_ready_state() -> void:
 	level+=1
-	game_stats_hud.update_level(level)
-	level_score = BASE_SCORE
-	print("Get Ready!")
+	game_clear_lvl_ui.update_level(level)
+	game_clear_lvl_ui.update_score(run_score)
+	_reset_level_score()
+	game_clear_lvl_ui.show()
 	
 
 func _enter_level_start_state() -> void:
@@ -72,17 +77,26 @@ func _enter_level_start_state() -> void:
 	$StartGameTimer.start()
 	game_stats_hud.show()
 	game_title_ui.hide()
+	game_clear_lvl_ui.hide()
+	game_over_ui.hide()
 
 func _enter_game_over_state() -> void:
 	print("Game Over!")
 	print("Your Score was: ", run_score)
 	$ScoreTimer.stop()
+	_clear_queen()
+	_clear_drones()
+	game_over_ui.update_level(level)
+	game_over_ui.update_score(run_score)
+	_reset_level()
+	_reset_run_score()
+	_reset_level_score()
+	game_over_ui.show()
 	
 
 func _enter_level_clear_state() -> void:
 	print("CLEARED THE LEVEL!")
-	for drone in get_tree().get_nodes_in_group("drones"):
-		drone.queue_free()
+	_clear_drones()
 	run_score += level_score
 	game_stats_hud.update_score(run_score)
 	game_state_manager.change_state(State.GET_READY)
@@ -153,6 +167,7 @@ func _on_start_game_timer_timeout():
 	$ScoreTimer.start()
 	
 	var queen = queen_bee_scene.instantiate()
+	queen.add_to_group("queen")
 	add_child(queen)
 	queen.is_caught.connect(_on_queen_caught)
 	
@@ -213,11 +228,37 @@ func _point_fits_in_board(
 		point.y >= min_y and point.y <= max_y
 	)
 
+func _reset_level_score() -> void:
+	level_score = BASE_SCORE
+
+func _reset_run_score() -> void:
+	run_score = 0
+
+func _reset_level() -> void:
+	level = 1
+	
+func _clear_drones() -> void:
+	for drone in get_tree().get_nodes_in_group("drones"):
+		drone.queue_free()
+		
+func _clear_queen() -> void:
+	for queen in get_tree().get_nodes_in_group("queen"):
+		queen.queue_free()
 
 func _on_new_game_btn_new_game_pressed() -> void:
 	await get_tree().create_timer(.5).timeout
 	game_state_manager.change_state(State.LEVEL_START)
 
-
 func _on_quit_btn_quit_btn_pressed() -> void:
 	get_tree().quit()
+
+func _on_next_btn_next_lvl_btn_pressed() -> void:
+	print("Get Ready!")
+	await get_tree().create_timer(.5).timeout
+	game_stats_hud.update_level(level)
+	game_state_manager.change_state(State.LEVEL_START)
+
+
+func _on_title_btn_title_btn_pressed() -> void:
+	await get_tree().create_timer(.5).timeout
+	game_state_manager.change_state(State.TITLE)

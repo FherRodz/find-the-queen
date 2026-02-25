@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bnw74af0adjm5"]
+
+[ext_resource type="Theme" uid="uid://5mkp4tn7b0" path="res://resources/NextButton.tres" id="1_ptkqx"]
+[ext_resource type="Script" uid="uid://cluvbrr8wmbca" path="res://next_btn.gd" id="2_valf7"]
+
+[node name="NextBtn" type="Button" unique_id=1694141803]
+custom_minimum_size = Vector2(61, 18)
+offset_right = 61.0
+offset_bottom = 18.0
+pivot_offset = Vector2(31, 9)
+theme = ExtResource("1_ptkqx")
+script = ExtResource("2_valf7")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

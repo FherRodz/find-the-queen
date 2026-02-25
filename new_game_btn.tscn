@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bsf21o275q3nu"]
 
-[ext_resource type="Theme" uid="uid://b7p50c8f11cyn" path="res://NewGameButton.tres" id="1_ipu1u"]
+[ext_resource type="Theme" uid="uid://b7p50c8f11cyn" path="res://resources/NewGameButton.tres" id="1_ipu1u"]
 [ext_resource type="Script" uid="uid://bwphjb656m6mk" path="res://new_game_btn.gd" id="2_thxme"]
 
 [node name="NewGameBtn" type="Button" unique_id=130003780]

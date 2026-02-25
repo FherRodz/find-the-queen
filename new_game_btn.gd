@@ -2,6 +2,8 @@ extends Button
 
 signal new_game_pressed
 
+@export var animated: bool = false
+
 var tween: Tween
 
 # Called when the node enters the scene tree for the first time.
@@ -20,16 +22,18 @@ func _on_pressed() -> void:
 
 
 func _on_mouse_entered() -> void:
-	_reset_tween()
-	tween = create_tween()
-	
-	tween.tween_property(self, "scale", Vector2(1.2,1.2), .5)
+	if animated:
+		_reset_tween()
+		tween = create_tween()
+		
+		tween.tween_property(self, "scale", Vector2(1.2,1.2), .5)
 	
 func _on_mouse_exited() -> void:
-	_reset_tween()
-	tween = create_tween()
-	
-	tween.tween_property(self, "scale", Vector2(1,1), .7)
+	if animated:
+		_reset_tween()
+		tween = create_tween()
+		
+		tween.tween_property(self, "scale", Vector2(1,1), .7)
 	
 func _reset_tween() -> void:
 	if tween:

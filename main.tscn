@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://dsoswcnynriun" path="res://game_stats_hud.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://dgq5tkykk0e3q" path="res://game_title.tscn" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://dyrsy0w5as5ge" path="res://title_ui.tscn" id="8_5vw27"]
+[ext_resource type="PackedScene" uid="uid://bhyk7wyhh76wd" path="res://level_clear_ui.tscn" id="9_kek77"]
+[ext_resource type="PackedScene" uid="uid://1mvfmjsiieqi" path="res://resources/game_over_ui.tscn" id="10_4c57u"]
 
 [node name="Main" type="Node" unique_id=1434602781]
 script = ExtResource("1_0xm2m")
@@ -44,15 +46,48 @@ offset_bottom = 76.0
 grow_vertical = 1
 
 [node name="TitleUI" parent="." unique_id=483035801 instance=ExtResource("8_5vw27")]
-offset_left = 272.0
-offset_top = 192.0
-offset_right = 272.0
-offset_bottom = 192.0
+offset_left = -128.0
+offset_top = -44.0
+offset_right = 0.0
+offset_bottom = 63.0
 scale = Vector2(2, 2)
+
+[node name="LevelClearUi" parent="." unique_id=429730787 instance=ExtResource("9_kek77")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.5
+offset_top = -53.5
+offset_right = 64.5
+offset_bottom = 53.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverUi" parent="." unique_id=968637893 instance=ExtResource("10_4c57u")]
+z_index = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.5
+offset_top = -53.5
+offset_right = 64.5
+offset_bottom = 53.5
+grow_horizontal = 2
+grow_vertical = 2
 
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartGameTimer" to="." method="_on_start_game_timer_timeout"]
 [connection signal="new_game_pressed" from="TitleUI/VBoxContainer/NewGameBtn" to="." method="_on_new_game_btn_new_game_pressed"]
 [connection signal="quit_btn_pressed" from="TitleUI/VBoxContainer/QuitBtn" to="." method="_on_quit_btn_quit_btn_pressed"]
+[connection signal="next_lvl_btn_pressed" from="LevelClearUi/CenterContainer/MarginContainer/GridContainer/NextBtn" to="." method="_on_next_btn_next_lvl_btn_pressed"]
+[connection signal="title_btn_pressed" from="LevelClearUi/CenterContainer/MarginContainer/GridContainer/TitleBtn" to="." method="_on_title_btn_title_btn_pressed"]
+[connection signal="new_game_pressed" from="GameOverUi/CenterContainer/MarginContainer/GridContainer/NewGameBtn" to="." method="_on_new_game_btn_new_game_pressed"]
+[connection signal="title_btn_pressed" from="GameOverUi/CenterContainer/MarginContainer/GridContainer/TitleBtn" to="." method="_on_title_btn_title_btn_pressed"]
 
 [editable path="TitleUI"]
+[editable path="LevelClearUi"]
+[editable path="GameOverUi"]
