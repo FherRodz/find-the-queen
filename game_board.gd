@@ -7,6 +7,8 @@ var keeper_last_position: Vector2
 var direction: int = 1
 var idle: bool = false
 
+signal clicked_play_area
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_spawn_tiny_keeper()
@@ -51,3 +53,12 @@ func _on_tiny_keeper_interact() -> void:
 	_idle_keeper()
 	await get_tree().create_timer(3).timeout
 	idle = false
+
+
+func _on_play_area_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	print("area event")
+	if event is InputEventMouseButton \
+	and event.button_index == MOUSE_BUTTON_LEFT \
+	and event.pressed:
+		print("aprete")
+		clicked_play_area.emit()

@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://qlgpijdao1ad" path="res://assets/ui-level-box.png" id="2_nvbob"]
 [ext_resource type="Texture2D" uid="uid://c1bcryuk23qr4" path="res://assets/ui-time-box.png" id="3_5at2t"]
 [ext_resource type="Texture2D" uid="uid://ro5r8bf7buw7" path="res://assets/ui-score-box.png" id="4_dqivv"]
+[ext_resource type="PackedScene" uid="uid://b27mbw0ebnr41" path="res://smoker_btn.tscn" id="6_5at2t"]
 
 [node name="GameStatsHUD" type="Control" unique_id=1495035985]
 custom_minimum_size = Vector2(73, 182)
@@ -30,3 +31,8 @@ box_texture = ExtResource("3_5at2t")
 [node name="Score" parent="VBoxContainer" unique_id=73224715 instance=ExtResource("1_chy22")]
 layout_mode = 2
 box_texture = ExtResource("4_dqivv")
+
+[node name="SmokerBtn" parent="VBoxContainer" unique_id=2029284522 instance=ExtResource("6_5at2t")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4

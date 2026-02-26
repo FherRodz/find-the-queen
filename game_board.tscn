@@ -18,6 +18,8 @@ point_count = 2
 script = ExtResource("1_i37i2")
 
 [node name="PlayArea" type="Area2D" parent="." unique_id=545638701]
+collision_layer = 0
+collision_mask = 0
 
 [node name="Background" type="Sprite2D" parent="PlayArea" unique_id=496158084]
 texture = ExtResource("1_xrvgy")
@@ -25,7 +27,9 @@ texture = ExtResource("1_xrvgy")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayArea" unique_id=2103696201]
 shape = SubResource("RectangleShape2D_xrvgy")
 
-[node name="Border" type="Area2D" parent="." unique_id=528795265]
+[node name="Border" type="StaticBody2D" parent="." unique_id=1652244230]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Border" unique_id=459224671]
 polygon = PackedVector2Array(-144, -114, 144, -114, 144, 113, -143, 113, -144, -112, -156, -112, -156, 126, 155, 127, 154, -125, -155, -124, -155, -114)
@@ -51,4 +55,5 @@ position = Vector2(29, -129)
 [node name="TinyBeehive4" parent="." unique_id=1310732218 instance=ExtResource("4_xh13x")]
 position = Vector2(-30, -129)
 
+[connection signal="input_event" from="PlayArea" to="." method="_on_play_area_input_event"]
 [connection signal="interact" from="Path2D/PathFollow2D/TinyKeeper" to="." method="_on_tiny_keeper_interact"]

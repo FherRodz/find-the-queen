@@ -6,8 +6,11 @@ extends Node
 @onready var game_title_ui = $TitleUI
 @onready var game_clear_lvl_ui = $LevelClearUi
 @onready var game_over_ui = $GameOverUi
+@onready var play_area: Area2D = $GameBoard/PlayArea
 
 var State
+var smoker_armed := false
+var _board_rect: Rect2
 
 # Constants
 const DRONE_INNER_RADIUS: float = 20
@@ -17,11 +20,14 @@ const MAX_RING_ATTEMPTS = 6
 const MIN_DISTANCE_FROM_QUEEN = DRONE_INNER_RADIUS
 const MAX_BOARD_ATTEMPTS = 8
 const BASE_SCORE = 30
+const SMOKER_RADIUS := 160.0
+const SMOKER_FORCE := 220.0
 
 # Stats
 var run_score = 0
 var level_score = BASE_SCORE
 var level = 1
+var _current_queen: RigidBody2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -48,10 +54,14 @@ func _process(delta: float) -> void:
 	if (game_state_manager.current_state == State.TITLE or game_state_manager.current_state == State.GET_READY)  and Input.is_action_pressed("new_game"):
 		print("pressed enter")
 		game_state_manager.change_state(State.LEVEL_START)
-		
+	
+	#A level is running
 	if game_state_manager.current_state == State.LEVEL_START:
 		if level_score == 0:
 			game_state_manager.change_state(State.GAME_OVER)
+		
+		if not smoker_armed and $SmokerTimer.is_stopped():
+			$SmokerTimer.start()
 		
 func _enter_title_state() -> void:
 	game_over_ui.hide()
@@ -110,6 +120,7 @@ func _add_drone_bee(board_rect: Rect2, queen_position: Vector2):
 	var drone = drone_bee_scene.instantiate()
 	drone.add_to_group("drones")
 	add_child(drone)
+	drone.target = _current_queen
 	
 	var drone_sprite = drone.get_node("AnimatedSprite2D")
 	var drone_frame_texture = drone_sprite.sprite_frames.get_frame_texture(
@@ -165,17 +176,19 @@ func _add_drone_bee(board_rect: Rect2, queen_position: Vector2):
 func _on_start_game_timer_timeout():
 	print("start timer timed out")
 	$ScoreTimer.start()
+	$SmokerTimer.start()
 	
 	var queen = queen_bee_scene.instantiate()
 	queen.add_to_group("queen")
 	add_child(queen)
+	_current_queen = queen
 	queen.is_caught.connect(_on_queen_caught)
 	
 	var area = $GameBoard/PlayArea
 	var shape = area.get_node("CollisionShape2D").shape
 
-	var board_rect: Rect2 = shape.get_rect()
-	board_rect.position += area.global_position
+	var _board_rect: Rect2 = shape.get_rect()
+	_board_rect.position += area.global_position
 	
 	var queen_sprite = queen.get_node("AnimatedSprite2D")
 	
@@ -186,11 +199,11 @@ func _on_start_game_timer_timeout():
 	
 	var queen_size = queen_frame_texture.get_size() * queen.scale
 	
-	var min_queen_x = board_rect.position.x + queen_size.x / 2
-	var max_queen_x = board_rect.position.x + board_rect.size.x - queen_size.x / 2
+	var min_queen_x = _board_rect.position.x + queen_size.x / 2
+	var max_queen_x = _board_rect.position.x + _board_rect.size.x - queen_size.x / 2
 	
-	var min_queen_y = board_rect.position.y + queen_size.y / 2
-	var max_queen_y = board_rect.position.y + board_rect.size.y - queen_size.y / 2
+	var min_queen_y = _board_rect.position.y + queen_size.y / 2
+	var max_queen_y = _board_rect.position.y + _board_rect.size.y - queen_size.y / 2
 	
 	var random_position = Vector2(
 		randf_range(min_queen_x, max_queen_x),
@@ -200,7 +213,13 @@ func _on_start_game_timer_timeout():
 	queen.global_position = random_position
 	
 	for i in level*20:
-		_add_drone_bee(board_rect, random_position)
+		_add_drone_bee(_board_rect, random_position)
+	
+func _on_smoker_timer_timeout() -> void:
+	print("Smoker cooldown is up!")
+	game_stats_hud.toggle_smoker()
+	$SmokerTimer.stop()
+	
 	
 func _on_score_timer_timeout():
 	level_score-=1
@@ -244,6 +263,57 @@ func _clear_drones() -> void:
 func _clear_queen() -> void:
 	for queen in get_tree().get_nodes_in_group("queen"):
 		queen.queue_free()
+		
+#func _unhandled_input(event: InputEvent) -> void:
+	#if not smoker_armed:
+		#return
+#
+	#if event is InputEventMouseButton \
+	#and event.button_index == MOUSE_BUTTON_LEFT \
+	#and event.pressed:
+		#print("aqui afuera")
+		#var click_pos := get_viewport().get_mouse_position()
+		#print("click pos: ", click_pos)
+		#print("_board_rect: ", _board_rect)
+		#print("is in rect: ", _is_point_inside_board(click_pos))
+		#if _is_point_inside_board(click_pos):
+			#print("Aqui")
+			#_apply_smoker_impulse(click_pos)
+			#smoker_armed = false
+			
+#func _is_point_inside_board(point: Vector2) -> bool:
+	#var space_state = get_viewport().find_world_2d().direct_space_state
+#
+	#var params = PhysicsPointQueryParameters2D.new()
+	#params.position = point
+	#params.collide_with_areas = true
+	#params.collision_mask = play_area.collision_layer
+#
+	#var results = space_state.intersect_point(params)
+#
+	#for result in results:
+		#if result.collider == play_area:
+			#return true
+#
+	#return false
+			
+func _apply_smoker_impulse(origin: Vector2) -> void:
+	print("Empuja abejaaasss")
+	for drone in get_tree().get_nodes_in_group("drones"):
+		if not drone is RigidBody2D:
+			continue
+
+		var to_drone = drone.global_position - origin
+		var distance = to_drone.length()
+
+		if distance == 0.0 or distance > SMOKER_RADIUS:
+			continue
+
+		var t = 1.0 - (distance / SMOKER_RADIUS)
+		var direction = to_drone.normalized()
+
+		drone.sleeping = false
+		drone.apply_central_impulse(direction * SMOKER_FORCE * t)
 
 func _on_new_game_btn_new_game_pressed() -> void:
 	await get_tree().create_timer(.5).timeout
@@ -262,3 +332,16 @@ func _on_next_btn_next_lvl_btn_pressed() -> void:
 func _on_title_btn_title_btn_pressed() -> void:
 	await get_tree().create_timer(.5).timeout
 	game_state_manager.change_state(State.TITLE)
+
+
+func _on_smoker_btn_smoker_pressed() -> void:
+	smoker_armed = true
+	game_stats_hud.toggle_smoker()
+	$SmokerTimer.start()
+
+
+func _on_game_board_clicked_play_area() -> void:
+	var cursor_pos := get_viewport().get_mouse_position()
+	if smoker_armed:
+		print("clickeeeddd and armed")
+		_apply_smoker_impulse(cursor_pos)

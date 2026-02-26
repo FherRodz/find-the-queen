@@ -3,8 +3,8 @@ extends Control
 @export var box_texture: Texture2D
 @export var initial_text: String = "000"
 
-@onready var background := $TextureRect
-@onready var label := $Label
+@onready var background = $TextureRect
+@onready var label = $Label
 
 func _ready():
 	background.texture = box_texture
