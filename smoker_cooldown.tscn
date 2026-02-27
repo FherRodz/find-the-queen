@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bbwyu1dsuvpnk"]
+
+[ext_resource type="Texture2D" uid="uid://b8tx5bh8hyyyr" path="res://assets/smoker-cd-bg.png" id="1_bfmvy"]
+[ext_resource type="Texture2D" uid="uid://beso31yj6yjdi" path="res://assets/smoker-cd-bar.png" id="2_stga5"]
+[ext_resource type="Script" uid="uid://b8jl6l5p1wlwy" path="res://smoker_cooldown.gd" id="3_74o8q"]
+
+[node name="SmokerCooldown" type="TextureProgressBar" unique_id=587628379]
+offset_right = 40.0
+offset_bottom = 40.0
+rotation = -1.5707964
+pivot_offset = Vector2(20, 5)
+texture_under = ExtResource("1_bfmvy")
+texture_progress = ExtResource("2_stga5")
+texture_progress_offset = Vector2(2, 2)
+script = ExtResource("3_74o8q")

@@ -55,6 +55,9 @@ func _swarm_queen(delta, direction, distance) -> void:
 
 	# Wake body if stacked
 	sleeping = false
+	
+	var look_direction = _random_direction()
+	look_at(look_direction)
 
 	# Apply impulse toward queen
 	apply_central_impulse(direction * ATTRACTION_STRENGTH * t)
@@ -70,10 +73,14 @@ func _random_movement(delta: float) -> void:
 		WANDER_INTERVAL_MAX
 	)
 
-	# Random direction
-	var angle = randf() * TAU
-	var direction = Vector2(cos(angle), sin(angle))
+	var direction = _random_direction()
 
 	sleeping = false
+	look_at(direction)
 	apply_central_impulse(direction * WANDER_IMPULSE)
+	
+func _random_direction() -> Vector2:
+	var angle = randf() * TAU
+	var direction = Vector2(cos(angle), sin(angle))
+	return direction
 	

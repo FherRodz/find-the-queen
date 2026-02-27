@@ -5,28 +5,33 @@
 [ext_resource type="PackedScene" uid="uid://cc01wxjbfoirm" path="res://queen_bee.tscn" id="2_1bvp3"]
 [ext_resource type="Script" uid="uid://27ckvydgy30h" path="res://game_state_manager.gd" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cisx3ng7tagtr" path="res://drone_bee.tscn" id="3_lquwl"]
+[ext_resource type="PackedScene" uid="uid://cuj6235qutjqc" path="res://smoke_wave.tscn" id="4_efxa6"]
 [ext_resource type="PackedScene" uid="uid://dsoswcnynriun" path="res://game_stats_hud.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://dgq5tkykk0e3q" path="res://game_title.tscn" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://dyrsy0w5as5ge" path="res://title_ui.tscn" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bhyk7wyhh76wd" path="res://level_clear_ui.tscn" id="9_kek77"]
 [ext_resource type="PackedScene" uid="uid://1mvfmjsiieqi" path="res://resources/game_over_ui.tscn" id="10_4c57u"]
+[ext_resource type="PackedScene" uid="uid://b0opmj5pr0ee7" path="res://cursor.tscn" id="12_dg77c"]
+[ext_resource type="PackedScene" uid="uid://dkx46huut576m" path="res://dialog_box.tscn" id="12_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://cpn64ic514e4s" path="res://background.tscn" id="14_w48qg"]
 
 [node name="Main" type="Node" unique_id=1434602781]
 script = ExtResource("1_0xm2m")
 queen_bee_scene = ExtResource("2_1bvp3")
 drone_bee_scene = ExtResource("3_lquwl")
+smoke_wave_scene = ExtResource("4_efxa6")
 
 [node name="GameBoard" parent="." unique_id=433372966 instance=ExtResource("1_ig7tw")]
 position = Vector2(320, 232)
 
 [node name="ScoreTimer" type="Timer" parent="." unique_id=1410109033]
-wait_time = 0.5
 
 [node name="StartGameTimer" type="Timer" parent="." unique_id=1799414595]
 one_shot = true
 
 [node name="SmokerTimer" type="Timer" parent="." unique_id=1485841809]
-wait_time = 4.0
+wait_time = 5.0
+one_shot = true
 
 [node name="GameStateManager" type="Node" parent="." unique_id=480692441]
 script = ExtResource("3_h2yge")
@@ -36,6 +41,9 @@ offset_left = 88.0
 offset_top = 112.0
 offset_right = 161.0
 offset_bottom = 294.0
+
+[node name="SmokerCooldown" parent="GameStatsHUD/VBoxContainer/SmokerBtn/VBoxContainer" parent_id_path=PackedInt32Array(1495035985, 2029284522, 1164124726) index="1" unique_id=587628379 node_paths=PackedStringArray("cooldown_timer")]
+cooldown_timer = NodePath("../../../../../SmokerTimer")
 
 [node name="GameTitle" parent="." unique_id=1682264331 instance=ExtResource("7_272bh")]
 anchors_preset = 5
@@ -81,11 +89,31 @@ offset_bottom = 53.5
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="DialogBox" parent="." unique_id=1983345933 instance=ExtResource("12_ycdy4")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -125.5
+offset_top = -85.0
+offset_right = 125.5
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1617527492]
+layer = 100
+
+[node name="Cursor" parent="CanvasLayer" unique_id=2030442401 instance=ExtResource("12_dg77c")]
+
+[node name="Background" parent="." unique_id=1472572917 instance=ExtResource("14_w48qg")]
+
 [connection signal="clicked_play_area" from="GameBoard" to="." method="_on_game_board_clicked_play_area"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartGameTimer" to="." method="_on_start_game_timer_timeout"]
 [connection signal="timeout" from="SmokerTimer" to="." method="_on_smoker_timer_timeout"]
-[connection signal="smoker_pressed" from="GameStatsHUD/VBoxContainer/SmokerBtn" to="." method="_on_smoker_btn_smoker_pressed"]
+[connection signal="pressed" from="GameStatsHUD/VBoxContainer/SmokerBtn/VBoxContainer/Button" to="." method="_on_smoker_button_pressed"]
 [connection signal="new_game_pressed" from="TitleUI/VBoxContainer/NewGameBtn" to="." method="_on_new_game_btn_new_game_pressed"]
 [connection signal="quit_btn_pressed" from="TitleUI/VBoxContainer/QuitBtn" to="." method="_on_quit_btn_quit_btn_pressed"]
 [connection signal="next_lvl_btn_pressed" from="LevelClearUi/CenterContainer/MarginContainer/GridContainer/NextBtn" to="." method="_on_next_btn_next_lvl_btn_pressed"]
@@ -95,6 +123,8 @@ grow_vertical = 2
 
 [editable path="GameBoard"]
 [editable path="GameStatsHUD"]
+[editable path="GameStatsHUD/VBoxContainer/SmokerBtn"]
 [editable path="TitleUI"]
 [editable path="LevelClearUi"]
 [editable path="GameOverUi"]
+[editable path="DialogBox"]

@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://b27mbw0ebnr41"]
 
+[ext_resource type="FontFile" uid="uid://o6x5jg8xrdc0" path="res://assets/fonts/LowGothic_8x10_Regular.ttf" id="1_l1yjs"]
 [ext_resource type="Texture2D" uid="uid://bic3tqxh8mxjp" path="res://assets/smoker-btn.png" id="1_lbmfb"]
 [ext_resource type="Script" uid="uid://i3bsg3cmi70a" path="res://smoker_btn.gd" id="2_l1yjs"]
+[ext_resource type="PackedScene" uid="uid://bbwyu1dsuvpnk" path="res://smoker_cooldown.tscn" id="4_3ddy8"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3ddy8"]
 texture = ExtResource("1_lbmfb")
@@ -19,22 +21,39 @@ region_rect = Rect2(39, 1, 35, 35)
 texture = ExtResource("1_lbmfb")
 region_rect = Rect2(115, 1, 35, 35)
 
-[node name="SmokerBtn" type="Button" unique_id=2029284522]
+[node name="SmokerBtn" type="Control" unique_id=1286291126]
+custom_minimum_size = Vector2(0, 53)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -26.5
+offset_right = 20.0
+offset_bottom = 26.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(20, 27)
+script = ExtResource("2_l1yjs")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1164124726]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=2029284522]
 custom_minimum_size = Vector2(40, 40)
-anchors_preset = -1
-anchor_left = 0.031000001
-anchor_top = 0.056
-anchor_right = 0.031000001
-anchor_bottom = 0.056
-offset_left = -19.84
-offset_top = -20.16
-offset_right = -11.84
-offset_bottom = -12.16
-tooltip_text = "Smoker ability. Use to push away drone bees!"
+layout_mode = 2
+tooltip_text = "Smoker ability. Use it to push away drone bees!"
+theme_override_fonts/font = ExtResource("1_l1yjs")
 theme_override_styles/normal = SubResource("StyleBoxTexture_3ddy8")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_wgw2i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_pi5qf")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_85rk1")
-script = ExtResource("2_l1yjs")
 
-[connection signal="pressed" from="." to="." method="_on_pressed"]
+[node name="SmokerCooldown" parent="VBoxContainer" unique_id=587628379 instance=ExtResource("4_3ddy8")]
+layout_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/Button" to="VBoxContainer/Button" method="_on_pressed"]

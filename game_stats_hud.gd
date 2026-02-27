@@ -3,7 +3,7 @@ extends Control
 @onready var score_box := $VBoxContainer/Score
 @onready var level_box := $VBoxContainer/Level
 @onready var time_box  := $VBoxContainer/Time
-@onready var smoker_btn := $VBoxContainer/SmokerBtn
+@onready var smoker_btn := $VBoxContainer/SmokerBtn/VBoxContainer/Button
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -23,5 +23,8 @@ func update_level(value: int):
 func update_time(seconds: int):
 	time_box.set_value(str(seconds))
 	
-func toggle_smoker() -> void:
-	smoker_btn.disabled = not smoker_btn.disabled
+func toggle_smoker_on() -> void:
+	smoker_btn.disabled = false
+	
+func toggle_smoker_off() -> void:
+	smoker_btn.disabled = true

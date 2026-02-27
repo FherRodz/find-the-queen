@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://dkx46huut576m"]
+
+[ext_resource type="Script" uid="uid://c4nhrgalldc57" path="res://dialog_box.gd" id="1_cjsg4"]
+[ext_resource type="Texture2D" uid="uid://dsqxoqr5vh8a3" path="res://assets/dialog-box.png" id="2_4am6m"]
+[ext_resource type="FontFile" uid="uid://o6x5jg8xrdc0" path="res://assets/fonts/LowGothic_8x10_Regular.ttf" id="3_8d3xf"]
+
+[node name="DialogBox" type="Control" unique_id=1983345933]
+custom_minimum_size = Vector2(286, 85)
+layout_mode = 3
+anchor_left = 0.19600001
+anchor_top = 0.11800001
+anchor_right = 0.19600001
+anchor_bottom = 0.11800001
+offset_left = -125.44
+offset_top = -42.480003
+offset_right = 125.56
+offset_bottom = 42.519997
+script = ExtResource("1_cjsg4")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1743584984]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_4am6m")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=931948359]
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 0
+offset_left = 93.0
+offset_top = 11.0
+offset_right = 281.0
+offset_bottom = 76.0
+
+[node name="Label" type="Label" parent="CenterContainer" unique_id=1873718399]
+custom_minimum_size = Vector2(185, 65)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_8d3xf")
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 1

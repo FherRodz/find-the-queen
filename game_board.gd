@@ -56,9 +56,7 @@ func _on_tiny_keeper_interact() -> void:
 
 
 func _on_play_area_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
-	print("area event")
 	if event is InputEventMouseButton \
 	and event.button_index == MOUSE_BUTTON_LEFT \
 	and event.pressed:
-		print("aprete")
 		clicked_play_area.emit()

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bx866of1xi8av"]
+
+[ext_resource type="AudioStream" uid="uid://csxnmv0ny1wr8" path="res://assets/music/Cute Bossa Nova.wav" id="1_4m5bw"]
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" unique_id=868288625]
+stream = ExtResource("1_4m5bw")
+autoplay = true
